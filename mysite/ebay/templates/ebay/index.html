@@ -1,0 +1,41 @@
+{% load static %}
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous">
+</script>
+<link rel="stylesheet" type="text/css" href="{% static 'ebay/css/bootstrap.min.css' %}" >  
+<script src="{% static 'ebay/js/bootstrap.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'ebay/style.css' %}">
+
+{% if data %}
+<div class="table-responsive-sm">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope='col'>#</th>
+                <th scope='col'>Item Name</th>
+                <th scope='col'>Condition</th>
+                <th scope='col'>Price</th>
+                <th scope='col'>Time left</th>
+                <th scope='col'>Shipping cost</th>
+            </tr>
+        </thead>
+    {% for item in data %}
+        <tbody>
+            <tr>
+                <th scope="row">{{ forloop.counter0 }}</th>
+                <td>{{ item.title }}</td>
+                <td>{{ item.condition }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.timeleft }}</td>
+                <td>{{ item.shippingcost }}</td>
+            </tr>
+        </tbody>
+    {% endfor %}
+    </table>
+</div>
+{% else %}
+    <p>No item are available.</p>
+{% endif %}
