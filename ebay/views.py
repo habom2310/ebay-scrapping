@@ -4,12 +4,13 @@ import ebay.scraper as scraper
 from django.template import loader
 
 def index(request):
-    data = scraper.get_data()
-    print(data[0])
+    return render(request, 'ebay/index.html')
 
-    # template = loader.get_template('ebay/index.html')
-    # context = {
-    #     'data': data,
-    # }
-    # return HttpResponse(template.render(context, request))
-    return render(request, 'ebay/index.html', {'data': data})
+def search(request):
+    if request.method == 'POST':
+        search = request.POST['search']
+        data = scraper.get_data(search)
+        return render(request, 'ebay/index.html', {'data': data})
+
+
+
