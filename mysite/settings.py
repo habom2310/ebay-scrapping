@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+# Load variables from .venv file
+load_dotenv('.venv')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,13 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-n1#r#@&3c7my+h!z_!sw6$%oe26ps!685iybprlld&8h$w27l9'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
 DEBUG = True
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ebayalert.azurewebsites.net']
-
 
 # Application definition
 
@@ -76,9 +79,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DBNAME'),
+        'HOST': os.environ.get('DBHOST'),
+        'USER': os.environ.get('DBUSER'),
+        'PASSWORD': os.environ.get('DBPASS'),
     }
 }
 
